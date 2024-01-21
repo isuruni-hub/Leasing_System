@@ -1,0 +1,144 @@
+<app-no-privilege *ngIf="!privilege.showOne" message="No privilege to show more details of a offer"></app-no-privilege>
+<app-object-not-found *ngIf="loaded && !offer" message="Offer Not Found"></app-object-not-found>
+<app-loading *ngIf="!loaded"></app-loading>
+<div *ngIf="offer && privilege.showOne">
+  <app-page-header
+    title="Offer Detail Page of {{ offer.code }}"
+    [breadcrumbSegments]="['Offers', 'Show All Offers', 'Details of ' + offer.code]"
+  ></app-page-header>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-card class="example-card">
+
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+            <tr>
+              <th>Created Date</th>
+              <td>{{offer.tocreation | date}}</td>
+            </tr>
+            <tr>
+              <th>Created Time</th>
+              <td>{{offer.tocreation | date: 'shortTime': '+0530'}}</td>
+            </tr>
+            <tr>
+              <th>Creator</th>
+              <td>{{getUserDisplayName(offer.creator)}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-md-8">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <mat-tab-group mat-align-tabs="start">
+            <mat-tab label="Offer">
+              <table class="w-100 table-striped custom-data-table">
+                <tbody>
+                <tr>
+                  <th>Code</th>
+                  <td>{{offer.code}}</td>
+                </tr>
+                <tr>
+                  <th>Offer Request</th>
+                  <td>{{offer.offerrequest.id}}</td>
+                </tr>
+
+                <tr>
+                  <th>Product Category</th>
+                  <td>{{offer.productcategory.id}}</td>
+                </tr>
+
+                <tr>
+                  <th>Financing Amount</th>
+                  <td>{{offer.financingamount}}</td>
+                </tr>
+
+                <tr>
+                  <th>Interest Rate</th>
+                  <td>{{offer.interestrate}}</td>
+                </tr>
+
+                <tr>
+                  <th>Period of Financing</th>
+                  <td>{{offer.periodoffinancing}}</td>
+                </tr>
+
+                <tr>
+                  <th>Document Charges</th>
+                  <td>{{offer.documentcharges}}</td>
+                </tr>
+
+                <tr>
+                  <th>Stamp Duty</th>
+                  <td>{{offer.stampduty}}</td>
+                </tr>
+
+                <tr>
+                  <th>Broker Commission</th>
+                  <td>{{offer.brokercommission}}</td>
+                </tr>
+
+                <tr>
+                  <th>Insurance Premium</th>
+                  <td>{{offer.insurancepremium}}</td>
+                </tr>
+
+                <tr>
+                  <th>Insurance Company</th>
+                  <td>{{offer.insurancecompany.name}}</td>
+                </tr>
+
+                <tr>
+                  <th>Rmv Charges</th>
+                  <td>{{offer.rmvcharges}}</td>
+                </tr>
+
+                <tr>
+                  <th>Incentive Fee</th>
+                  <td>{{offer.incentivefee}}</td>
+                </tr>
+
+
+
+
+
+                </tbody>
+              </table>
+            </mat-tab>
+            <mat-tab label="Installment List">
+              <table class="w-100 table-striped custom-data-table">
+                <tr>
+                  <th>Code</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                </tr>
+                <tr *ngFor="let installment of offer.installmentList ">
+                  <td>{{installment.code}}</td>
+                  <td>{{installment.date}}</td>
+                  <td>{{installment.amount}}</td>
+                </tr>
+              </table>
+
+            </mat-tab>
+
+          </mat-tab-group>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="d-flex mt-5">
+    <button *ngIf="privilege.delete" (click)="delete()" class="ml-0" mat-raised-button color="warn"><mat-icon>delete</mat-icon> Delete</button>
+    <span class="spacer"></span>
+    <button *ngIf="privilege.update" routerLink="/offers/edit/{{offer.id}}" mat-raised-button color="accent"><mat-icon>edit</mat-icon> Change</button>
+    <button *ngIf="privilege.add" routerLink="/offers/add" mat-stroked-button><mat-icon>add</mat-icon> New Offer</button>
+    <button *ngIf="privilege.showAll" routerLink="/offers" class="mr-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Offers</button>
+  </div>
+</div>
+
+

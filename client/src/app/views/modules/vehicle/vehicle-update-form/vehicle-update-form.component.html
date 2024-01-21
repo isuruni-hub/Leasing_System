@@ -1,0 +1,279 @@
+<app-no-privilege *ngIf="!privilege.update" message="No privilege to change vehicle details"></app-no-privilege>
+<div *ngIf="this.vehicle && privilege.update">
+  <app-page-header
+    title="Vehicle Change Form of {{ vehicle.code + '-' +' ' + vehicle.registrationno }}"
+    [breadcrumbSegments]="['Vehicles', 'Show All Vehicles', 'Change Details of ' + vehicle.code + '-' +' ' + vehicle.registrationno]"
+  ></app-page-header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" #ngForm="ngForm">
+    <mat-card>
+      <mat-card-content>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="vehicletype" required >
+                  <mat-option *ngFor="let vehicletype of vehicletypes" [value]="vehicletype.id">{{vehicletype.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="vehicletypeField.invalid">
+                  <span *ngIf="vehicletypeField.errors.required">Vehicle type is required</span>
+                  <span *ngIf="vehicletypeField.errors.server">{{vehicletypeField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Province</mat-label>
+                <mat-select formControlName="province" required>
+                  <mat-option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="provinceField.invalid">
+                  <span *ngIf="provinceField.errors.required">Province is required</span>
+                  <span *ngIf="provinceField.errors.server">{{provinceField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Registration No</mat-label>
+                <input matInput formControlName="registrationno">
+                <mat-hint>Ex:CBA-6980</mat-hint>
+                <mat-error *ngIf="registrationnoField.invalid">
+                  <span *ngIf="registrationnoField.errors.server">{{registrationnoField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Brand</mat-label>
+                <mat-select formControlName="brand" required>
+                  <mat-option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="brandField.invalid">
+                  <span *ngIf="brandField.errors.required">Brand is required</span>
+                  <span *ngIf="brandField.errors.server">{{brandField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Vehicle Model</mat-label>
+                <mat-select formControlName="vehiclemodel" required>
+                  <mat-option *ngFor="let vehiclemodel of vehiclemodels" [value]="vehiclemodel.id">{{vehiclemodel.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="vehiclemodelField.invalid">
+                  <span *ngIf="vehiclemodelField.errors.required">Vehiclemodel is required</span>
+                  <span *ngIf="vehiclemodelField.errors.server">{{vehiclemodelField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Country</mat-label>
+                <mat-select formControlName="country" required>
+                  <mat-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="countryField.invalid">
+                  <span *ngIf="countryField.errors.required">Country is required</span>
+                  <span *ngIf="countryField.errors.server">{{countryField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Chassis Number</mat-label>
+                <input matInput formControlName="chassisnumber">
+                <mat-hint>Ex:MD6265ONd01425</mat-hint>
+                <mat-error *ngIf="chassisnumberField.invalid">
+                  <span *ngIf="chassisnumberField.errors.server">{{chassisnumberField.errors.server.join(', ')}}</span>
+                  <span *ngIf="chassisnumberField.errors.pattern">Chassis number is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Engine Number</mat-label>
+                <input matInput formControlName="enginenumber">
+                <mat-hint>Ex:MD6265ONd01425</mat-hint>
+                <mat-error *ngIf="enginenumberField.invalid">
+                  <span *ngIf="enginenumberField.errors.server">{{enginenumberField.errors.server.join(', ')}}</span>
+                  <span *ngIf="enginenumberField.errors.pattern">Engine number is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Year of Manufacture</mat-label>
+                <input matInput [matDatepicker]="pickeryearofmanufacture" formControlName="yearofmanufacture" required>
+                <mat-datepicker-toggle matSuffix [for]="pickeryearofmanufacture"></mat-datepicker-toggle>
+                <mat-datepicker #pickeryearofmanufacture></mat-datepicker>
+                <mat-hint>Ex: 1994</mat-hint>
+                <mat-error *ngIf="yearofmanufactureField.invalid">
+                  <span *ngIf="yearofmanufactureField.errors.required">Manufacture year is required</span>
+                  <span *ngIf="yearofmanufactureField.errors.server">{{yearofmanufactureField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Vehicle Condition</mat-label>
+                <mat-select formControlName="vehiclecondition" required >
+                  <mat-option *ngFor="let vehiclecondition of vehicleconditions" [value]="vehiclecondition.id">{{vehiclecondition.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="vehicleconditionField.invalid">
+                  <span *ngIf="vehicleconditionField.errors.required">Vehicle condition is required</span>
+                  <span *ngIf="vehicleconditionField.errors.server">{{vehicleconditionField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+
+
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Date of Registration</mat-label>
+                <input matInput [matDatepicker]="pickerdateofregistration" formControlName="dateofregistration" required>
+                <mat-datepicker-toggle matSuffix [for]="pickerdateofregistration"></mat-datepicker-toggle>
+                <mat-datepicker #pickerdateofregistration></mat-datepicker>
+                <mat-hint>Ex: 1994/1/1</mat-hint>
+                <mat-error *ngIf="dateofregistrationField.invalid">
+                  <span *ngIf="dateofregistrationField.errors.required">Registration date is required</span>
+                  <span *ngIf="dateofregistrationField.errors.server">{{dateofregistrationField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Color</mat-label>
+                <input matInput formControlName="color">
+                <mat-hint>Ex: 0761524852</mat-hint>
+                <mat-error *ngIf="colorField.invalid">
+                  <span *ngIf="colorField.errors.server">{{colorField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Original color</mat-label>
+                <input matInput formControlName="originalcolor">
+                <mat-hint>Ex: 0761524852</mat-hint>
+                <mat-error *ngIf="originalcolorField.invalid">
+                  <span *ngIf="originalcolorField.errors.server">{{originalcolorField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Seating Capacity</mat-label>
+                <input matInput formControlName="seatingcapacity">
+                <mat-hint>Ex: 8</mat-hint>
+                <mat-error *ngIf="seatingcapacityField.invalid">
+                  <span *ngIf="seatingcapacityField.errors.server">{{seatingcapacityField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Engine Capacity</mat-label>
+                <input matInput formControlName="enginecapacity">
+                <mat-hint>Ex: 0761524852</mat-hint>
+                <mat-error *ngIf="enginecapacityField.invalid">
+                  <span *ngIf="enginecapacityField.errors.server">{{enginecapacityField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Fuel type</mat-label>
+                <mat-select formControlName="fueltype" required>
+                  <mat-option *ngFor="let fueltype of fueltypes" [value]="fueltype.id">{{fueltype.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="fueltypeField.invalid">
+                  <span *ngIf="fueltypeField.errors.required">Fuel type is required</span>
+                  <span *ngIf="fueltypeField.errors.server">{{fueltypeField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" ></textarea>
+            <mat-hint>Ex: </mat-hint>
+            <mat-error *ngIf="descriptionField.invalid">
+              <span *ngIf="descriptionField.errors.server">{{descriptionField.errors.server.join(', ')}}</span>
+              <span *ngIf="descriptionField.errors.minlength">Description should has at least null characters. </span>
+              <span *ngIf="descriptionField.errors.maxlength">Description can have a maximum of 65535 characters. </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="text-right mt-5 d-flex">
+          <button *ngIf="privilege.showAll" routerLink="/vehicles" class="ml-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Vehicles</button>
+          <span class="spacer"></span>
+          <button mat-stroked-button type="button" (click)="discardChanges()"><mat-icon>refresh</mat-icon> Clear</button>
+          <button class="mr-0" mat-flat-button color="primary" type="submit"><mat-icon>save</mat-icon> Save</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>
+

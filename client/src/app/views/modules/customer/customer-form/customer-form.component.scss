@@ -1,0 +1,16 @@
+.hidden {display:none;}
+
+.my-input:disabled {
+  display:none;
+}
+
+.error-box {
+  background-color: rgba(255, 192, 203, 0.8);
+  color: black;
+  paddinh: 15px 15px 4px;
+  border-redius: 5px;
+  margin-top: -10px;
+  margin-bottm: 20px;
+  border: 1px solid rgba(255, 192, 203, 1);
+}
+

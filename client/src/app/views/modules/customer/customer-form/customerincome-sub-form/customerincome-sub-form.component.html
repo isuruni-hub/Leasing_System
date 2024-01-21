@@ -1,0 +1,74 @@
+<div class="sub-form">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="sub-form-table-container" style="height: 240px;">
+        <div *ngIf="dataList.length === 0" class="sub-form-table-placeholder" style="padding-top: 90px"> No income to show </div>
+        <div *ngIf="dataList.length > 0">
+          <table class="w-100 mat-table">
+            <thead>
+            <tr>
+              <th>Title</th>
+              <th>Amount</th>
+              <th></th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let dataItem of dataList; let i = index">
+              <td>{{dataItem.title}}</td>
+              <td>{{dataItem.amount}}</td>
+              <td class="btn-col">
+                <button type="button" [disabled]="disabled"  (click)="removeData(i, dataItem)" class="mat-btn-sm" mat-flat-button color="warn">
+                  <mat-icon>delete</mat-icon> Delete
+                </button>
+              </td>
+              <td class="btn-col">
+                <button type="button" [disabled]="disabled"  (click)="updateData(i, dataItem)" class="mat-btn-sm" mat-flat-button color="accent">
+                  <mat-icon>edit</mat-icon> Change
+                </button>
+              </td>
+
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+    </div>
+
+      <div class="col-md-5">
+        <form [formGroup]="form" (ngSubmit)="addData()">
+          <mat-form-field appearance="outline" class="w-100 mb-2">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" [required]="fileValidations.title.length!=0" (focus)="setValidations()">
+            <mat-hint>Ex: Business Income</mat-hint>
+            <mat-error *ngIf="titleField.invalid">
+              <span *ngIf="titleField.errors.required">Title is required</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Amount</mat-label>
+            <input matInput formControlName="amount" [required]="fileValidations.amount.length!=0" (focus)="setValidations()">
+            <mat-hint>Ex: 10</mat-hint>
+            <mat-error *ngIf="amountField.invalid">
+              <span *ngIf="amountField.errors.required">Amount is required</span>
+            </mat-error>
+          </mat-form-field>
+
+
+
+          <div class="text-right mt-5-d-flex">
+            <span class="spacer"></span>
+            <button [disabled]="disabled" (click)="resetForm()" class="mat-btn-sm" mat-stroked-button type="button"><mat-icon>refresh</mat-icon>Clear</button>
+            <button [disabled]="disabled" (click)="setValidations()" class="mr-0 mat-btn-sm" mat-flat-button color="accent" type="submit"><mat-icon>save</mat-icon>Add</button>
+          </div>
+        </form>
+      </div>
+
+
+  </div>
+</div>
+

@@ -1,0 +1,23 @@
+<h3 class="mat-title">Dashboard</h3>
+<mat-card>
+  <mat-card-content>
+
+    <div class="row">
+      <div *ngIf="dashboardPrivilege.showCustomers" class="col-md-3">
+        <div class="dashboard-box bg-info">
+          <div class="dashboard-box-data">
+            <span class="dashboard-box-value">{{recentCustomerCount}}</span>
+            <span class="dashboard-box-label">Last Week Customers</span>
+          </div>
+
+          <div class="dashboard-box-link">
+            <a mat-button href="#" routerLink="customers">More Info <mat-icon>play_arrow</mat-icon></a>
+          </div>
+      </div>
+    </div>
+    </div>
+
+
+
+  </mat-card-content>
+</mat-card>

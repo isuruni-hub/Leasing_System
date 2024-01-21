@@ -1,0 +1,151 @@
+<app-no-privilege *ngIf="!privilege.showOne" message="No privilege to show more details of a valuation"></app-no-privilege>
+<app-object-not-found *ngIf="loaded && !valuation" message="Valuation Not Found"></app-object-not-found>
+<app-loading *ngIf="!loaded"></app-loading>
+<div *ngIf="valuation && privilege.showOne">
+  <app-page-header
+    title="Valuation Detail Page of {{ valuation.code + '-' + valuation.registrationno }}"
+    [breadcrumbSegments]="['Valuations', 'Show All Valuations', 'Details of ' + valuation.code + '-'+ ' ' + valuation.registrationno]"
+  ></app-page-header>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+            <tr>
+              <th>Created Date</th>
+              <td>{{valuation.tocreation | date}}</td>
+            </tr>
+            <tr>
+              <th>Created Time</th>
+              <td>{{valuation.tocreation | date: 'shortTime': '+0530'}}</td>
+            </tr>
+            <tr>
+              <th>Creator</th>
+              <td>{{getUserDisplayName(valuation.creator)}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-8">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+
+            <tr>
+              <th>Valuation Organization</th>
+              <td>{{valuation.valuationorganization.name}}</td>
+            </tr>
+            <tr>
+              <th>Valuation Date</th>
+              <td>{{valuation.valuationdate | date: 'fullDate'}}</td>
+            </tr>
+            <tr>
+              <th>Valuation Status</th>
+              <td>{{valuation.vehicletype.name}}</td>
+            </tr>
+            <tr>
+              <th>Vehicle Type</th>
+              <td>{{valuation.valuationorganization.name}}</td>
+            </tr>
+            <tr>
+              <th>Province</th>
+              <td>{{valuation.province.name}}</td>
+            </tr>
+
+            <tr>
+              <th>Registrationno</th>
+              <td>{{valuation.registrationno}}</td>
+            </tr>
+
+            <tr>
+              <th>Brand</th>
+              <td>{{valuation.brand.name}}</td>
+            </tr>
+
+            <tr>
+              <th>Vehiclemodel</th>
+              <td>{{valuation.vehiclemodel.name}}</td>
+            </tr>
+
+            <tr>
+              <th>Country</th>
+              <td>{{valuation.country.name}}</td>
+            </tr>
+
+            <tr>
+              <th>Chassisnumber</th>
+              <td>{{valuation.chassisnumber}}</td>
+            </tr>
+
+            <tr>
+              <th>Enginenumber</th>
+              <td>{{valuation.enginenumber}}</td>
+            </tr>
+
+            <tr>
+              <th>Year of Manufactureh</th>
+              <td>{{valuation.yearofmanufacture | date: 'fullDate'}}</td>
+            </tr>
+
+            <tr>
+              <th>Vehicle Condition</th>
+              <td>{{valuation.vehiclecondition.name}}</td>
+            </tr>
+
+            <tr>
+              <th>Date of Registration</th>
+              <td>{{valuation.dateofregistration | date: 'fullDate'}}</td>
+            </tr>
+
+            <tr>
+              <th>Color</th>
+              <td>{{valuation.color}}</td>
+            </tr>
+
+            <tr>
+              <th>Original Color</th>
+              <td>{{valuation.originalcolor}}</td>
+            </tr>
+
+            <tr>
+              <th>Odometer Readingr</th>
+              <td>{{valuation.odometerreading}}</td>
+            </tr>
+
+            <tr>
+              <th>Engine Capacity</th>
+              <td>{{valuation.enginecapacity}}</td>
+            </tr>
+
+            <tr>
+              <th>Fuel Type</th>
+              <td>{{valuation.fueltype.name}}</td>
+            </tr>
+
+
+            <tr *ngIf="valuation.description">
+              <th>Description</th>
+              <td [innerHTML]="valuation.description | nl2br"></td>
+            </tr>
+
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="d-flex mt-5">
+    <button *ngIf="privilege.delete" (click)="delete()" class="ml-0" mat-raised-button color="warn"><mat-icon>delete</mat-icon> Delete</button>
+    <span class="spacer"></span>
+    <button *ngIf="privilege.update" routerLink="/valuations/edit/{{valuation.id}}" mat-raised-button color="accent"><mat-icon>edit</mat-icon> Change</button>
+    <button *ngIf="privilege.add" routerLink="/valuations/add" mat-stroked-button><mat-icon>add</mat-icon> New Valuation</button>
+    <button *ngIf="privilege.showAll" routerLink="/valuations" class="mr-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Valuations</button>
+  </div>
+</div>
+
+
+
